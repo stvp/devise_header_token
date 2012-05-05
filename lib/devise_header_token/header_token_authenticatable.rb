@@ -1,24 +1,23 @@
 module Devise
   module Strategies
     class HeaderTokenAuthenticatable < TokenAuthenticatable
-      def with_authentication_hash(*args)
-        super && parse_authentication_key_values(header_values, header_keys)
+      # Devise accomplishes all the work of authentication through side-effects.
+      # What you see below is a much, much simpler version of how Devise's
+      # strategies normally work.
+      def valid?
+        self.authentication_hash = {}
+        self.authentication_type = :token_auth
+        if token = header_values[header_key]
+          self.authentication_hash[mapping.to.token_authentication_key] = token
+        else
+          false
+        end
       end
 
       private
 
-      # Skip basic auth authentication.
-      def authentication_keys
-        []
-      end
-
-      # Skip params authentication.
-      def request_keys
-        []
-      end
-
-      def header_keys
-        @header_keys ||= ["HTTP_#{mapping.to.token_authentication_key.gsub('-', '_').upcase}"]
+      def header_key
+        "HTTP_#{mapping.to.token_authentication_key.gsub('-', '_').upcase}"
       end
 
       def header_values
