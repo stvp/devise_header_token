@@ -10,11 +10,20 @@ Usage
 
 In your Gemfile:
 
-    gem 'devise'
-    gem 'devise_header_token'
+```ruby
+gem 'devise'
+gem 'devise_header_token'
+```
 
 In your `config/initializers/devise.rb`, set the header key:
 
-    config.token_authentication_key = 'X-API-TOKEN'
+```ruby
+config.token_authentication_key = 'X-API-TOKEN'
+```
 
 And it all should Just Work™.
+
+*This gem is maintained by [Stovepipe Studios][stovepipe]*
+
+[stovepipe]: http://www.stovepipestudios.com
+
